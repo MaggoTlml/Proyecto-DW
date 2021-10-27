@@ -1,0 +1,28 @@
+{
+  "name": "seng",
+  "version": "1.0.0",
+  "description": "SENG (Sistema de Educacion Nacional de Guatemala)",
+  "main": "server.js ",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaggoTlml/Proyecto-DW.git"
+  },
+  "keywords": [
+    "node.js",
+    "login",
+    "jwt",
+    "easy",
+    "facil",
+    "postgres",
+    "UMG"
+  ],
+  "author": "Keyra Lima, Brayan Reyes & Jose Barrera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaggoTlml/Proyecto-DW/issues"
+  },
+  "homepage": "https://github.com/MaggoTlml/Proyecto-DW#readme"
+}
