@@ -1,5 +1,5 @@
 module.exports = {
-    secret: "bezkoder-secret-key"
+    secret: "S3NG-secret-key"
   };
   
   //funciones jsonwebtoken como o utilizar un algoritmo que necesita una clave 
