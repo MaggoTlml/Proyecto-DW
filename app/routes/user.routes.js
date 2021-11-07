@@ -20,20 +20,28 @@ module.exports = function(app) {
   app.get("/api/test/all", controller.allAccess);
 
   app.get(
-    "/api/test/user",
-    [authJwt.verifyToken],
-    controller.userBoard
+    "/api/SpAdmin",
+    [authJwt.verifyToken, authJwt.isSpAdmin],
+    controller.SpAdminPanel
+  );
+
+
+
+  app.get(
+    "/api/Directores",
+    [authJwt.verifyToken, authJwt.isDirector],
+    controller.DirectoresPanel
   );
 
   app.get(
-    "/api/test/mod",
-    [authJwt.verifyToken, authJwt.isModerator],
-    controller.moderatorBoard
+    "/api/Maestros",
+    [authJwt.verifyToken, authJwt.isMaestro],
+    controller.MaestrosPanel
   );
 
   app.get(
-    "/api/test/admin",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
+     "/api/Alumnos",
+    [authJwt.verifyToken, authJwt.isAlumno],
+    controller.Alumnospanel
   );
 };

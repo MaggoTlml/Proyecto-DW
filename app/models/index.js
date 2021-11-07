@@ -23,11 +23,11 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 // para crear las tablas en la base de datos 
-db.user = require("../models/user.model.js")(sequelize, Sequelize); // mandamos a llamar la connsulta o mapeo que creamos previamente en el modelo 
+db.usuario = require("../models/user.model.js")(sequelize, Sequelize); // mandamos a llamar la connsulta o mapeo que creamos previamente en el modelo 
 //para la obtencion del usuario en la base de datos 
 db.role = require("../models/role.model.js")(sequelize, Sequelize); // mandamos a llamar a consulta o mapeo de los roles 
 
-db.role.belongsToMany(db.user, { // se crea la relacion de lastablas 
+db.role.belongsToMany(db.usuario, { // se crea la relacion de lastablas 
  
     through: "user_roles",
   foreignKey: "roleId",
@@ -39,9 +39,9 @@ db.role.belongsToMany(db.user, { // se crea la relacion de lastablas
 //– Un rol puede ser asumido por muchos usuarios
 
 
-db.user.belongsToMany(db.role, { // se crea la relacion de las tablas 
-  through: "user_roles",
-  foreignKey: "userId",
+db.usuario.belongsToMany(db.role, { // se crea la relacion de las tablas 
+  through: "usuario_roles",
+  foreignKey: "usuarioId",
   otherKey: "roleId"
 });
 
@@ -49,7 +49,7 @@ db.user.belongsToMany(db.role, { // se crea la relacion de las tablas
 //roles a través de su clave principal como claves externas.through, foreignKey, otherKey
 
 
-db.ROLES = ["user", "admin", "moderator"]; // agregamos los roles 
+db.ROLES = ["SpAdmin", "Director", "Maestro", "Alumno"]; 
  
 module.exports = db;
 

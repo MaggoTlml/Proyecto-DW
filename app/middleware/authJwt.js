@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");  // se invoca la funcion para la generacion
 const config = require("../config/auth.config.js"); // llamamos el archivodeconfiguracion 
 //que generara el token en base a cierto texto
 const db = require("../models"); // llamamos a los modelos
-const User = db.user; // y al usuario 
+const Usuario = db.usuario; // y al usuario 
 
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
@@ -13,78 +13,95 @@ verifyToken = (req, res, next) => {
     });
   }
 
-  jwt.verify(token, config.secret, (err, decoded) => { // sino tiene permiso 
+  jwt.verify(  token, config.secret, (err, decoded) => { // sino tiene permiso 
     if (err) {
       return res.status(401).send({
         message: "Unauthorized!"
       });
     }
-    req.userId = decoded.id;
+    req.usuarioId = decoded.id;
     next();
   });
 };
 
-isAdmin = (req, res, next) => {  // si el rol del usuario es admin
-  User.findByPk(req.userId).then(user => {
-    user.getRoles().then(roles => {
+isSpAdmin = (req, res, next) => {  // si el rol del usuario es admin
+  Usuario.findByPk(req.usuarioId).then(usuario => {
+    usuario.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "admin") {
+        if (roles[i].name === "SpAdmin") {
           next();
-          return;
+          return; 
         }
       }
 
       res.status(403).send({ // si no tiene el rol necesario
-        message: "Require Admin Role!"
+        message: "Require Admin Role!" // admin 
       });
       return;
     });
   });
 };
 
-isModerator = (req, res, next) => {
-  User.findByPk(req.userId).then(user => {
-    user.getRoles().then(roles => {
+isDirector = (req, res, next) => {
+  Usuario.findByPk(req.usuarioId).then(usuario => {
+    usuario.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "moderator") {
+        if (roles[i].name === "Director") { //moderador 
           next();
           return;
         }
       }
 
       res.status(403).send({
-        message: "Require Moderator Role!"
+        message: "Require Moderator Role!" // 
       });
     });
   });
 };
 
-isModeratorOrAdmin = (req, res, next) => {
-  User.findByPk(req.userId).then(user => {
-    user.getRoles().then(roles => {
+isMaestro = (req, res, next) => {
+  Usuario.findByPk(req.usuarioId).then(usuario => {
+    usuario.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "moderator") {
-          next();
-          return;
-        }
-
-        if (roles[i].name === "admin") {
+        if (roles[i].name === "Maestro") { // maestros 
           next();
           return;
         }
       }
 
       res.status(403).send({
-        message: "Require Moderator or Admin Role!"
+        message: "Necesita tener rol de maestro !" // maestros
       });
     });
   });
 };
+
+isAlumno = (req, res, next) => {
+  Usuario.findByPk(req.usuarioId).then(user => {
+    user.getRoles().then(roles => {
+      for (let i = 0; i < roles.length; i++) {
+        if (roles[i].name === "Alumno") { // maestros 
+          next();
+          return;
+        }
+      }
+
+      res.status(403).send({
+        message: "Necesita tener rol de Alumno !" // maestros
+      });
+    });
+  });
+};
+
+
+
+
 // funcion jwt para realizar las verificaciones 
 const authJwt = {
   verifyToken: verifyToken,
-  isAdmin: isAdmin,
-  isModerator: isModerator,
-  isModeratorOrAdmin: isModeratorOrAdmin
+  isSpAdmin: isSpAdmin,
+  isDirector: isDirector,
+  isMaestro: isMaestro,
+  isAlumno: isAlumno
 };
 module.exports = authJwt;

@@ -8,15 +8,19 @@ exports.allAccess = (req, res) => {
     res.status(200).send("Public Content.");
   };
   
-  exports.userBoard = (req, res) => {
-    res.status(200).send("User Content.");
+  exports.SpAdminPanel = (req, res) => {
+    res.status(200).send("SpAdmin Panel");
+  };
+
+  exports.DirectoresPanel = (req, res) => {
+    res.status(200).send("Directores Panel.");
   };
   
-  exports.adminBoard = (req, res) => {
-    res.status(200).send("Admin Content.");
+  exports.MaestrosPanel = (req, res) => {
+    res.status(200).send("Maestros Panel");
   };
   
-  exports.moderatorBoard = (req, res) => {
-    res.status(200).send("Moderator Content.");
+  exports.Alumnospanel = (req, res) => {
+    res.status(200).send("Alumnos Panel.");
   };
   

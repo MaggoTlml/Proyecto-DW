@@ -9,7 +9,7 @@
 
 const db = require("../models"); // llamamos a los modelos
 const config = require("../config/auth.config"); // la configuracion de autenticacion
-const User = db.user; //llamamos la cnosultade usuarios 
+const Usuario = db.usuario; //llamamos la cnosultade usuarios 
 const Role = db.role; // roles
 
 const Op = db.Sequelize.Op;
@@ -19,12 +19,13 @@ var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
   // Para Guardar un Usuario en la BD
-  User.create({
-    username: req.body.username,
+  Usuario.create({
+    
+    usuario: req.body.usuario,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
+    contra: bcrypt.hashSync(req.body.contra, 8)
   })
-    .then(user => {
+    .then(usuario => {
       if (req.body.roles) {
         Role.findAll({
           where: {
@@ -33,13 +34,13 @@ exports.signup = (req, res) => {
             }
           }
         }).then(roles => {
-          user.setRoles(roles).then(() => {
+          usuario.setRoles(roles).then(() => {
             res.send({ message: "El Usuario ha sido registrado con Exito1!" });
           });
         });
       } else {
-        // user role = 1
-        user.setRoles([1]).then(() => {
+        // user role = 1 por default 
+        usuario.setRoles([1]).then(() => {
           res.send({ message: "El usuario ha sido regiistrado con Exito2!" });
         });
       }
@@ -50,29 +51,29 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-  User.findOne({
+  Usuario.findOne({
     where: {
-      username: req.body.username
+      usuario: req.body.usuario
     }
   })
-    .then(user => {
-      if (!user) {
+    .then(usuario => {
+      if (!usuario) {
         return res.status(404).send({ message: "El usuario no Existe." });
       }
 
-      var passwordIsValid = bcrypt.compareSync(
-        req.body.password,
-        user.password
+      var contraIsValid = bcrypt.compareSync(
+        req.body.contra,
+        usuario.contra
       );
 
-      if (!passwordIsValid) {
+      if (!contraIsValid) {
         return res.status(401).send({
           accessToken: null,
           message: "Contrase;a Invalida!"
         });
       }
 
-      var token = jwt.sign({ id: user.id }, config.secret, {
+      var token = jwt.sign({ id: usuario.id }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
 
@@ -82,9 +83,9 @@ exports.signin = (req, res) => {
           authorities.push("ROLE_" + roles[i].name.toUpperCase());
         }
         res.status(200).send({
-          id: user.id,
-          username: user.username,
-          email: user.email,
+          id: usuario.id,
+          usuario: usuario.usuario,
+          email: usuario.email,
           roles: authorities,
           accessToken: token
         });

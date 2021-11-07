@@ -1,17 +1,24 @@
 
 module.exports = (sequelize, Sequelize) => {  // funcion para mapear la bd 
-    const User = sequelize.define("users", {  // consulta 
+    const Usuario = sequelize.define("Usuarios", {  // User / Users
       // datos a consultar
-        username: {                           
-        type: Sequelize.STRING
+      id:{
+        type: Sequelize.STRING(13),
+        primaryKey: true
       },
-      email: {
-        type: Sequelize.STRING
+      nombres:{type: Sequelize.STRING(128)},
+      apellidos:{type: Sequelize.STRING(128)},
+      
+      usuario: {   // username                          
+        type: Sequelize.STRING(32)
       },
-      password: {
-        type: Sequelize.STRING
+      email: {  // email
+        type: Sequelize.STRING(64)
+      },
+      contra: {  // password
+        type: Sequelize.STRING(64)
       }
+
     });
-  
-    return User; // devuelve la consulta con los datos 
+    return Usuario; // devuelve la consulta con los datos 
   };

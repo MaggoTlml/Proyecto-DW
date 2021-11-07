@@ -58,17 +58,24 @@ app.listen(PORT, () => {
 function initial() {
   Role.create({
     id: 1,
-    name: "user"
+    name: "SpAdmin"
   });
  
   Role.create({
     id: 2,
-    name: "moderator"
+    name: "Director"
   });
  
   Role.create({
     id: 3,
-    name: "admin"
+    name: "Maestro"
   });
+
+   
+  Role.create({
+    id: 4,
+    name: "Alumno"
+  });
+
 }
 

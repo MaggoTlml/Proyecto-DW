@@ -1,16 +1,30 @@
+const { usuario } = require("../models");
 const db = require("../models"); //mandamos a llamar los modelos de las consultas
 const ROLES = db.ROLES; // consulta roeles
-const User = db.user; // consulta usuarios
+const Usuario = db.usuario; // consulta usuarios
 
 // verificar  usuario / e-mail
 checkDuplicateUsernameOrEmail = (req, res, next) => {
-  // Nombre de Usuario
-  User.findOne({
-    where: {
-      username: req.body.username
+// CUI
+  Usuario.findOne({
+  where:{
+    usuario: req.boy.id
+  }
+  }).then(usuario => {
+    if(usuario){
+      res.status(400).send({
+        message: "Error! El CUI ya esta registrado"
+      });
+      return;
     }
-  }).then(user => {
-    if (user) {
+
+  // Nombre de Usuario
+  Usuario.findOne({
+    where: {
+      usuario: req.body.usuario
+    }
+  }).then(usuario => {
+    if (usuario) {
       res.status(400).send({
         message: "Error! El nombre de usuario ya esta en uso!"
       });
@@ -18,12 +32,12 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
     }
 
     // Email
-    User.findOne({
+    Usuario.findOne({
       where: {
         email: req.body.email
       }
-    }).then(user => {
-      if (user) {
+    }).then(usuario => {
+      if (usuario) {
         res.status(400).send({
           message: "Error! El e-mail ya esta en uso!"
         });
@@ -33,7 +47,11 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
       next();
     });
   });
+});
 };
+
+
+
 // verificar si el rol existe 
 checkRolesExisted = (req, res, next) => {
   if (req.body.roles) {
