@@ -26,6 +26,8 @@ db.sequelize = sequelize;
 db.usuario = require("../models/user.model.js")(sequelize, Sequelize); // mandamos a llamar la connsulta o mapeo que creamos previamente en el modelo 
 //para la obtencion del usuario en la base de datos 
 db.role = require("../models/role.model.js")(sequelize, Sequelize); // mandamos a llamar a consulta o mapeo de los roles 
+db.institucion = require("../models/institucion.model")(sequelize, Sequelize);
+
 
 db.role.belongsToMany(db.usuario, { // se crea la relacion de lastablas 
  

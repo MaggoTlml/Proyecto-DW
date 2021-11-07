@@ -6,17 +6,17 @@ const Usuario = db.usuario; // consulta usuarios
 // verificar  usuario / e-mail
 checkDuplicateUsernameOrEmail = (req, res, next) => {
 // CUI
-  Usuario.findOne({
-  where:{
-    usuario: req.boy.id
-  }
-  }).then(usuario => {
-    if(usuario){
-      res.status(400).send({
-        message: "Error! El CUI ya esta registrado"
-      });
-      return;
-    }
+  //Usuario.findOne({
+  //where:{
+    //usuario: req.boy.id
+ // }
+  //}).then(usuario => {
+   // if(usuario){
+    //  res.status(400).send({
+     //   message: "Error! El CUI ya esta registrado"
+     // });
+     // return;
+   // }
 
   // Nombre de Usuario
   Usuario.findOne({
@@ -47,7 +47,7 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
       next();
     });
   });
-});
+//});
 };
 
 

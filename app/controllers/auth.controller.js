@@ -20,7 +20,9 @@ var bcrypt = require("bcryptjs");
 exports.signup = (req, res) => {
   // Para Guardar un Usuario en la BD
   Usuario.create({
-    
+    id : req.body.id,
+    nombres: req.body.nombres,
+    apellidos: req.body.apellidos,
     usuario: req.body.usuario,
     email: req.body.email,
     contra: bcrypt.hashSync(req.body.contra, 8)
